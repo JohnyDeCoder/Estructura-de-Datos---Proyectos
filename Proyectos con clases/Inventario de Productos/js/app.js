@@ -4,7 +4,24 @@ class Inventario {
     }
 
     agregar(producto) {
-        this.productos.push(producto);
+        let i = this.productos.length;
+
+        if (i == 0) {
+            this.productos[i] = producto;
+            return true;
+        }
+
+        if (this.productos.length > 0) {
+            while (producto.codigo < this.productos[i - 1].codigo) {
+                this.productos[i] = this.productos[i - 1];
+                i--;
+            }
+            this.productos[i] = producto;
+
+            return true;
+        }
+
+        return false;
     }
 
     eliminar(codigo) {
