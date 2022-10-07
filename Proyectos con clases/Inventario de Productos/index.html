@@ -65,7 +65,7 @@
 
         const msg = inventario.eliminar(codigo);
 
-        if (msg != null) {
+        if (msg != false) {
             return document.getElementById("divDetalles").innerHTML += `<p>¡Se ha eliminado el producto con el código ${codigo}!</p>`;
         }
 

@@ -8,31 +8,44 @@ class Inventario {
     }
 
     eliminar(codigo) {
-        let producto = this.buscar(codigo);
-
-        if (producto != null) {
-            for (let i = 0; i < this.productos.length; i++) {
-                if (this.productos[i].codigo == codigo) {
-                    for (let j = i; j < this.productos.length; j++) {
-                        this.productos[j] = this.productos[j + 1];
-                    }
+        for (let i = 0; i < this.productos.length; i++) {
+            if (this.productos[i].codigo === codigo) {
+                for (let j = i; j < this.productos.length; j++) {
+                    this.productos[j] = this.productos[j + 1];
                 }
-            }
 
-            this.productos.pop();
-            return true;
+                this.productos.pop();
+                return true;
+            }
         }
+
+        return false;
     }
 
     buscar(codigo) {
-        for (let i = 0; i < this.productos.length; i++) {
-            if (this.productos[i].codigo == codigo) {
-                return this.productos[i];
-            }
+        let inicio = 0, fin = this.productos.length - 1, medio = Math.floor((inicio + fin) / 2);
+
+        if (codigo === this.productos[medio].codigo) {
+            return this.productos[medio];
         }
 
-        console.log("No existe el producto");
-        return null;
+        while (codigo !== this.productos[medio].codigo) {
+            if (inicio > fin) {
+                return null;
+            }
+            else if (codigo < this.productos[medio].codigo) {
+                fin = medio - 1;
+            }
+            else {
+                inicio = medio + 1;
+            }
+
+            medio = Math.floor((inicio + fin) / 2);
+        }
+
+        if (codigo === this.productos[medio].codigo) {
+            return this.productos[medio];
+        }
     }
 
     listado() {
@@ -48,8 +61,8 @@ class Inventario {
     listadoInverso() {
         let listadoInverso = "";
 
-        for (let i = this.productos.length - 1, j = 0; i >= 0; i--, j++) {
-            listadoInverso += `${j + 1}.- ${this.productos[i].info()}\n`;
+        for (let i = this.productos.length - 1, j = 1; i >= 0; i--, j++) {
+            listadoInverso += `${j}.- ${this.productos[i].info()}\n`;
         }
 
         return listadoInverso;
